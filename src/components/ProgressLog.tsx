@@ -14,25 +14,22 @@ export default function ProgressLog({ progress, logs, isCalculating }: ProgressL
   }, [logs]);
 
   return (
-    <div className="border border-border">
-      {/* Progress bar */}
+    <div className="rounded-lg border border-border bg-secondary/30 overflow-hidden">
       {isCalculating && (
-        <div className="h-1 bg-muted">
+        <div className="h-1.5 bg-muted">
           <div
-            className="h-full bg-primary transition-all"
-            style={{ width: `${progress}%`, transitionDuration: "100ms" }}
+            className="h-full bg-primary rounded-full transition-all"
+            style={{ width: `${progress}%`, transitionDuration: "150ms" }}
           />
         </div>
       )}
-
-      {/* Log */}
-      <div className="h-48 overflow-y-auto p-3 text-xs">
+      <div className="h-48 overflow-y-auto p-4 text-xs font-mono">
         {logs.length === 0 ? (
-          <p className="text-muted-foreground">Waiting for calculation...</p>
+          <p className="text-muted-foreground italic">Waiting for calculation...</p>
         ) : (
           logs.map((entry, i) => (
-            <div key={i} className="flex gap-3 mb-1">
-              <span className="text-muted-foreground shrink-0">
+            <div key={i} className="flex gap-3 mb-1.5">
+              <span className="text-muted-foreground/60 shrink-0">
                 {entry.timestamp.toLocaleTimeString("en-US", { hour12: false })}
               </span>
               <span className="text-foreground">{entry.message}</span>
