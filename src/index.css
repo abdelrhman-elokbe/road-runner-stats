@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700;900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,50 +6,49 @@
 
 @layer base {
   :root {
-    --background: 220 20% 7%;
-    --foreground: 220 14% 90%;
+    --background: 0 0% 100%;
+    --foreground: 220 20% 14%;
 
-    --card: 220 20% 10%;
-    --card-foreground: 220 14% 90%;
+    --card: 220 20% 98%;
+    --card-foreground: 220 20% 14%;
 
-    --popover: 220 20% 10%;
-    --popover-foreground: 220 14% 90%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 14%;
 
-    --primary: 38 88% 43%;
-    --primary-foreground: 220 20% 7%;
+    --primary: 38 88% 48%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 13% 26%;
-    --secondary-foreground: 220 14% 90%;
+    --secondary: 220 14% 96%;
+    --secondary-foreground: 220 20% 14%;
 
-    --muted: 220 13% 20%;
+    --muted: 220 14% 96%;
     --muted-foreground: 220 9% 46%;
 
-    --accent: 220 13% 20%;
-    --accent-foreground: 220 14% 90%;
+    --accent: 220 14% 94%;
+    --accent-foreground: 220 20% 14%;
 
-    --destructive: 340 100% 38%;
-    --destructive-foreground: 220 14% 90%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 220 13% 26%;
-    --input: 220 13% 26%;
-    --ring: 38 88% 43%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 38 88% 48%;
 
-    --radius: 0px;
+    --radius: 0.75rem;
 
-    /* Stat colors */
-    --stat-amber: 38 88% 43%;
-    --stat-cyan: 195 100% 44%;
-    --stat-magenta: 340 78% 60%;
-    --stat-mint: 160 61% 52%;
+    --stat-amber: 38 88% 48%;
+    --stat-cyan: 199 89% 48%;
+    --stat-magenta: 340 82% 52%;
+    --stat-mint: 160 60% 45%;
 
-    --sidebar-background: 220 20% 7%;
-    --sidebar-foreground: 220 14% 90%;
-    --sidebar-primary: 38 88% 43%;
-    --sidebar-primary-foreground: 220 20% 7%;
-    --sidebar-accent: 220 13% 20%;
-    --sidebar-accent-foreground: 220 14% 90%;
-    --sidebar-border: 220 13% 26%;
-    --sidebar-ring: 38 88% 43%;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 220 20% 14%;
+    --sidebar-primary: 38 88% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 14% 94%;
+    --sidebar-accent-foreground: 220 20% 14%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 38 88% 48%;
   }
 }
 
@@ -59,11 +58,15 @@
   }
 
   body {
-    @apply bg-background text-foreground font-mono;
-    font-family: 'IBM Plex Mono', monospace;
+    @apply bg-background text-foreground;
+    font-family: 'DM Sans', system-ui, sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Roboto Slab', serif;
+    font-family: 'DM Sans', system-ui, sans-serif;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'DM Mono', monospace;
   }
 }

@@ -39,17 +39,14 @@ export default function FileUpload({ onFileParsed, onError }: FileUploadProps) {
 
   return (
     <div
-      onDragOver={(e) => {
-        e.preventDefault();
-        setIsDragging(true);
-      }}
+      onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
       onDragLeave={() => setIsDragging(false)}
       onDrop={onDrop}
       onClick={() => inputRef.current?.click()}
-      className={`border border-dashed p-8 text-center cursor-pointer transition-colors ${
+      className={`border-2 border-dashed rounded-lg p-10 text-center cursor-pointer transition-all ${
         isDragging
-          ? "border-primary bg-primary/5"
-          : "border-muted-foreground/30 hover:border-primary/50"
+          ? "border-primary bg-primary/5 scale-[1.01]"
+          : "border-border hover:border-primary/40 hover:bg-secondary/50"
       }`}
     >
       <input
@@ -62,11 +59,12 @@ export default function FileUpload({ onFileParsed, onError }: FileUploadProps) {
           if (file) handleFile(file);
         }}
       />
-      <p className="text-muted-foreground text-sm">
-        Drag file here or click to browse
+      <div className="text-3xl mb-3">📂</div>
+      <p className="text-foreground font-medium text-sm">
+        Drag & drop your file here
       </p>
-      <p className="text-muted-foreground/50 text-xs mt-2">
-        CSV or Excel (.xlsx) with lat/lng columns
+      <p className="text-muted-foreground text-xs mt-1">
+        or click to browse — CSV or Excel (.xlsx)
       </p>
     </div>
   );
