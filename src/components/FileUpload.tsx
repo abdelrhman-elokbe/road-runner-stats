@@ -43,10 +43,10 @@ export default function FileUpload({ onFileParsed, onError }: FileUploadProps) {
       onDragLeave={() => setIsDragging(false)}
       onDrop={onDrop}
       onClick={() => inputRef.current?.click()}
-      className={`border-2 border-dashed rounded-lg p-10 text-center cursor-pointer transition-all ${
+      className={`border-2 border-dashed rounded-2xl p-8 sm:p-10 text-center cursor-pointer transition-all ${
         isDragging
           ? "border-primary bg-primary/5 scale-[1.01]"
-          : "border-border hover:border-primary/40 hover:bg-secondary/50"
+          : "border-border hover:border-primary/40 hover:bg-primary/5"
       }`}
     >
       <input
@@ -59,11 +59,11 @@ export default function FileUpload({ onFileParsed, onError }: FileUploadProps) {
           if (file) handleFile(file);
         }}
       />
-      <div className="text-3xl mb-3">📂</div>
-      <p className="text-foreground font-medium text-sm">
+      <div className="text-4xl mb-3">📂</div>
+      <p className="text-foreground font-semibold text-sm">
         Drag & drop your file here
       </p>
-      <p className="text-muted-foreground text-xs mt-1">
+      <p className="text-muted-foreground text-xs mt-1.5">
         or click to browse — CSV or Excel (.xlsx)
       </p>
     </div>

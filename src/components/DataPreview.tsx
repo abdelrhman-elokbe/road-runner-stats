@@ -8,25 +8,25 @@ export default function DataPreview({ data }: DataPreviewProps) {
   const totalPairs = (data.coordinates.length * (data.coordinates.length - 1)) / 2;
 
   return (
-    <div className="rounded-lg border border-border overflow-hidden">
-      <div className="px-4 py-2.5 bg-secondary/50 flex justify-between text-xs text-muted-foreground font-medium">
+    <div className="rounded-2xl border border-border bg-background overflow-hidden">
+      <div className="px-4 py-3 bg-secondary/50 flex justify-between text-xs text-muted-foreground font-medium">
         <span>✅ {data.coordinates.length} valid points from {data.totalRows} rows</span>
-        <span>{totalPairs.toLocaleString()} pairs</span>
+        <span className="font-semibold text-foreground">{totalPairs.toLocaleString()} pairs</span>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-xs">
           <thead>
             <tr className="border-b border-border bg-secondary/30">
               {data.headers.map((h, i) => (
-                <th key={i} className="p-2.5 text-left text-muted-foreground font-medium">{h}</th>
+                <th key={i} className="p-3 text-left text-muted-foreground font-semibold">{h}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {data.preview.map((row, i) => (
-              <tr key={i} className="border-b border-border/50 hover:bg-secondary/20">
+              <tr key={i} className="border-b border-border/50 hover:bg-secondary/20 transition-colors">
                 {row.map((cell, j) => (
-                  <td key={j} className="p-2.5 text-foreground">{cell}</td>
+                  <td key={j} className="p-3 text-foreground">{cell}</td>
                 ))}
               </tr>
             ))}
@@ -34,7 +34,7 @@ export default function DataPreview({ data }: DataPreviewProps) {
         </table>
       </div>
       {data.totalRows > 6 && (
-        <div className="p-2 text-xs text-muted-foreground text-center bg-secondary/20">
+        <div className="p-2.5 text-xs text-muted-foreground text-center">
           + {data.totalRows - 6} more rows
         </div>
       )}
