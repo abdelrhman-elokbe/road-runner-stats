@@ -12,8 +12,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
-        mono: ['"DM Mono"', 'monospace'],
+        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'monospace'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -29,9 +29,9 @@ export default {
         popover: { DEFAULT: "hsl(var(--popover))", foreground: "hsl(var(--popover-foreground))" },
         card: { DEFAULT: "hsl(var(--card))", foreground: "hsl(var(--card-foreground))" },
         "stat-amber": "hsl(var(--stat-amber))",
-        "stat-cyan": "hsl(var(--stat-cyan))",
-        "stat-magenta": "hsl(var(--stat-magenta))",
-        "stat-mint": "hsl(var(--stat-mint))",
+        "stat-blue": "hsl(var(--stat-blue))",
+        "stat-rose": "hsl(var(--stat-rose))",
+        "stat-emerald": "hsl(var(--stat-emerald))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

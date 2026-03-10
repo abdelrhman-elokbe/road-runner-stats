@@ -6,15 +6,15 @@ interface StatCardsProps {
 }
 
 const cards = [
-  { key: "average", label: "Average Distance", unit: "km", color: "border-stat-amber", bg: "bg-stat-amber/10", text: "text-stat-amber", delay: 0 },
-  { key: "median", label: "Median Distance", unit: "km", color: "border-stat-cyan", bg: "bg-stat-cyan/10", text: "text-stat-cyan", delay: 0.05 },
-  { key: "max", label: "Max Distance", unit: "km", color: "border-stat-magenta", bg: "bg-stat-magenta/10", text: "text-stat-magenta", delay: 0.1 },
-  { key: "pairsCalculated", label: "Pairs Calculated", unit: "", color: "border-stat-mint", bg: "bg-stat-mint/10", text: "text-stat-mint", delay: 0.15 },
+  { key: "average", label: "Average Distance", unit: "km", emoji: "📍", gradient: "from-orange-400 to-amber-500", delay: 0 },
+  { key: "median", label: "Median Distance", unit: "km", emoji: "📊", gradient: "from-blue-400 to-indigo-500", delay: 0.08 },
+  { key: "max", label: "Max Distance", unit: "km", emoji: "🚀", gradient: "from-pink-400 to-rose-500", delay: 0.16 },
+  { key: "pairsCalculated", label: "Pairs Calculated", unit: "", emoji: "✅", gradient: "from-emerald-400 to-green-500", delay: 0.24 },
 ] as const;
 
 export default function StatCards({ result }: StatCardsProps) {
   return (
-    <div className="grid grid-cols-2 gap-3">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       {cards.map((card) => {
         const value =
           card.key === "pairsCalculated"
@@ -24,18 +24,26 @@ export default function StatCards({ result }: StatCardsProps) {
         return (
           <motion.div
             key={card.key}
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: card.delay, duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className={`${card.bg} border-l-4 ${card.color} rounded-lg p-4`}
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ delay: card.delay, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="relative overflow-hidden rounded-2xl bg-background border border-border p-5 group hover:shadow-lg transition-shadow"
           >
-            <p className="text-xs text-muted-foreground mb-1">{card.label}</p>
-            <p className={`text-2xl font-bold ${card.text}`}>
-              {value}
-              {card.unit && (
-                <span className="text-sm text-muted-foreground ml-1 font-normal">{card.unit}</span>
-              )}
-            </p>
+            {/* Gradient accent bar at top */}
+            <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${card.gradient}`} />
+            
+            <div className="flex items-start justify-between">
+              <div>
+                <p className="text-xs text-muted-foreground font-medium mb-2">{card.label}</p>
+                <p className="text-3xl font-extrabold text-foreground tracking-tight">
+                  {value}
+                  {card.unit && (
+                    <span className="text-base text-muted-foreground ml-1.5 font-medium">{card.unit}</span>
+                  )}
+                </p>
+              </div>
+              <span className="text-2xl">{card.emoji}</span>
+            </div>
           </motion.div>
         );
       })}
