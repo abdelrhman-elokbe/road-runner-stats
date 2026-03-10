@@ -5,7 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: "/Road-Distance-Calculator/",
+  base: process.env.GITHUB_ACTIONS ? "/Road-Distance-Calculator/" : "/",
   server: {
     host: "::",
     port: 8080,
