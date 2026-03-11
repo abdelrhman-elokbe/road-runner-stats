@@ -75,6 +75,31 @@ async function fetchOSRM(
   return null;
 }
 
+async function fetchOSRMCrossBatch(
+  sourcePts: Coordinate[],
+  destPts: Coordinate[],
+  log: (msg: string) => void
+): Promise<number[][] | null> {
+  const allCoords = [...sourcePts, ...destPts];
+  const coordStr = allCoords.map((c) => `${c.lng},${c.lat}`).join(";");
+  const sourceIndices = sourcePts.map((_, i) => i).join(";");
+  const destIndices = destPts.map((_, i) => i + sourcePts.length).join(";");
+
+  for (const baseUrl of [OSRM_PRIMARY, OSRM_FALLBACK]) {
+    try {
+      const url = `${baseUrl}/${coordStr}?annotations=distance&sources=${sourceIndices}&destinations=${destIndices}`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      if (data.code !== "Ok") throw new Error(`OSRM error: ${data.code}`);
+      return data.distances; // [sourcePts.length][destPts.length]
+    } catch (e: any) {
+      log(`OSRM cross-batch failed (${baseUrl === OSRM_PRIMARY ? "primary" : "fallback"}): ${e.message}`);
+    }
+  }
+  return null;
+}
+
 export async function calculateDistances(
   points: Coordinate[],
   onProgress: (pct: number) => void,
@@ -142,18 +167,46 @@ export async function calculateDistances(
       );
     }
 
-    // Cross-batch distances (Haversine)
-    onLog("Cross-batch pairs: using Haversine x1.35 estimate");
+    // Cross-batch distances (OSRM with sources/destinations)
+    const crossBatchTotal = batches.length * (batches.length - 1) / 2;
+    let crossDone = 0;
     for (let b1 = 0; b1 < batches.length; b1++) {
       for (let b2 = b1 + 1; b2 < batches.length; b2++) {
-        for (const p1 of batches[b1]) {
-          for (const p2 of batches[b2]) {
-            allDistances.push(haversine(p1, p2));
-            processed++;
+        const src = batches[b1];
+        const dst = batches[b2];
+
+        // Split into sub-requests if combined size > BATCH_SIZE
+        const maxSrc = Math.min(src.length, Math.floor(BATCH_SIZE / 2));
+        const maxDst = BATCH_SIZE - maxSrc;
+
+        let usedOSRM = true;
+        for (let si = 0; si < src.length; si += maxSrc) {
+          const srcChunk = src.slice(si, si + maxSrc);
+          for (let di = 0; di < dst.length; di += maxDst) {
+            const dstChunk = dst.slice(di, di + maxDst);
+            const matrix = await fetchOSRMCrossBatch(srcChunk, dstChunk, onLog);
+            if (matrix) {
+              for (let i = 0; i < srcChunk.length; i++) {
+                for (let j = 0; j < dstChunk.length; j++) {
+                  allDistances.push(matrix[i][j] / 1000);
+                  processed++;
+                }
+              }
+            } else {
+              usedOSRM = false;
+              for (const p1 of srcChunk) {
+                for (const p2 of dstChunk) {
+                  allDistances.push(haversine(p1, p2));
+                  processed++;
+                }
+              }
+            }
           }
         }
+        crossDone++;
+        onLog(`Cross-batch ${b1 + 1}×${b2 + 1}: ${usedOSRM ? "OSRM" : "Haversine x1.35 fallback"}`);
+        onProgress(50 + (crossDone / crossBatchTotal) * 50);
       }
-      onProgress(50 + ((b1 + 1) / batches.length) * 50);
     }
     onProgress(100);
   }
