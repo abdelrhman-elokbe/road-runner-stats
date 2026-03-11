@@ -75,6 +75,31 @@ async function fetchOSRM(
   return null;
 }
 
+async function fetchOSRMCrossBatch(
+  sourcePts: Coordinate[],
+  destPts: Coordinate[],
+  log: (msg: string) => void
+): Promise<number[][] | null> {
+  const allCoords = [...sourcePts, ...destPts];
+  const coordStr = allCoords.map((c) => `${c.lng},${c.lat}`).join(";");
+  const sourceIndices = sourcePts.map((_, i) => i).join(";");
+  const destIndices = destPts.map((_, i) => i + sourcePts.length).join(";");
+
+  for (const baseUrl of [OSRM_PRIMARY, OSRM_FALLBACK]) {
+    try {
+      const url = `${baseUrl}/${coordStr}?annotations=distance&sources=${sourceIndices}&destinations=${destIndices}`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      if (data.code !== "Ok") throw new Error(`OSRM error: ${data.code}`);
+      return data.distances; // [sourcePts.length][destPts.length]
+    } catch (e: any) {
+      log(`OSRM cross-batch failed (${baseUrl === OSRM_PRIMARY ? "primary" : "fallback"}): ${e.message}`);
+    }
+  }
+  return null;
+}
+
 export async function calculateDistances(
   points: Coordinate[],
   onProgress: (pct: number) => void,
