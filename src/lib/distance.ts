@@ -206,7 +206,7 @@ export async function calculateDistances(
         crossDone++;
         onLog(`Cross-batch ${b1 + 1}×${b2 + 1}: ${usedOSRM ? "OSRM" : "Haversine x1.35 fallback"}`);
         onProgress(50 + (crossDone / crossBatchTotal) * 50);
-      }
+    }
     onProgress(100);
   }
 
