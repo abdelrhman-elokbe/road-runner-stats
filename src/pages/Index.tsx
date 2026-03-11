@@ -92,7 +92,7 @@ const Index = () => {
             <div className="rounded-xl bg-secondary p-4 text-xs text-muted-foreground space-y-1.5">
               <p className="font-semibold text-foreground/70 text-[11px] uppercase tracking-wider mb-2">Limitations</p>
               <p>⚡ OSRM public server.</p>
-              <p>📊 Batches &gt;75 pts: cross-batch pairs use OSRM sources/destinations sub-requests (Haversine ×1.35 fallback if OSRM fails).</p>
+              <p>📊 Batches &gt;75 pts: cross-batch uses Haversine ×1.35.</p>
               <p>📋 Log always discloses which method was used.</p>
             </div>
           </div>
